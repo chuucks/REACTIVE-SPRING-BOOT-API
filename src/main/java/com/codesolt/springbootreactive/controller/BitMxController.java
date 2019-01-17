@@ -2,29 +2,32 @@ package com.codesolt.springbootreactive.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codesolt.springbootreactive.model.Coins;
-import com.codesolt.springbootreactive.model.Tickers;
+import com.codesolt.springbootreactive.model.Books;
+import com.codesolt.springbootreactive.model.SingleTicker;
 import com.codesolt.springbootreactive.service.CoinService;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("bitmx/")
+@RequestMapping("bitmx/api")
 public class BitMxController {
-	
+
 	@Autowired
-	private CoinService coinService;
+	private CoinService service;
 	
-	@GetMapping("coin/")
-	public Mono<Coins> getCoins() {
-		return coinService.getCoins();	
+	@GetMapping("/book")
+	public Flux<Books> getBooks() {
+		return Flux.fromArray(Books.values());
 	}
 	
-	@GetMapping("ticker/")
-	public Mono<Tickers> getTickers() {
-		return coinService.getTickers();	
+
+	@GetMapping("/book/{id}")
+	public Mono<SingleTicker> getBook(@PathVariable String id) {
+		return service.getTicker(id.toString());
 	}
 }

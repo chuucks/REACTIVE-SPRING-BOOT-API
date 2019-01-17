@@ -23,8 +23,8 @@ public class WebConfig implements WebFluxConfigurer {
 	
     @Bean
     public RouterFunction<ServerResponse> routeCoinsRequests(BitMxHandler handler) {
-        return RouterFunctions.route(RequestPredicates.GET("/bitmx/handler/coins"), handler::getCoins)
-        		.andRoute(RequestPredicates.GET("/bitmx/handler/tickers"), handler::getTickers);
+        return RouterFunctions.route(RequestPredicates.GET("/bitmx/api/coin"), handler::getCoins)
+        		.andRoute(RequestPredicates.GET("/bitmx/api/ticker"), handler::getTickers);
     }
 	
     @Override
