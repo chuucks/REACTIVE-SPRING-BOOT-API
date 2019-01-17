@@ -6,7 +6,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.codesolt.springbootreactive.model.Coins;
 import com.codesolt.springbootreactive.model.SingleTicker;
-import com.codesolt.springbootreactive.model.Ticker;
 import com.codesolt.springbootreactive.model.Tickers;
 
 import reactor.core.publisher.Mono;

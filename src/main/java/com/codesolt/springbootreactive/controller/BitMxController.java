@@ -30,4 +30,19 @@ public class BitMxController {
 	public Mono<SingleTicker> getBook(@PathVariable String id) {
 		return service.getTicker(id.toString());
 	}
+	
+	@GetMapping("/book/{id}/status")
+	public Mono<String> getBookStatus(@PathVariable String id) {
+		return service.getTicker(id.toString())
+			.map(
+					ticker -> {
+						if(ticker.getPayload().getAsk() > ticker.getPayload().getLast())
+							return "Recommend to sell";
+						else if(ticker.getPayload().getLast() > ticker.getPayload().getBid())
+							return "Recommend to buy";
+						else
+							return "Recommend to wait";
+					});
+	}
+	
 }

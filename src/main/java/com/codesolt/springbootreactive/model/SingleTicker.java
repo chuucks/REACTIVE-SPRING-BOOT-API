@@ -45,6 +45,18 @@ public class SingleTicker {
 	
 		@JsonProperty("created_at")
 	    private String createdAt;
+		
+		public double getBid() {
+			return Double.valueOf(bid);
+		}
+		
+		public double getAsk() {
+			return Double.valueOf(bid);
+		}
+		
+		public double getLast() {
+			return Double.valueOf(last);
+		}
 	
 	}
 }
