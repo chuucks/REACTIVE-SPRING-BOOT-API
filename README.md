@@ -3,6 +3,6 @@
 ### Uses Spring Security, WebClient and Swagger 3
 ### Communicates with Mexican Crypto currency API: BITSO (https://bitso.com/api_info)
 - To run locally: 'gradle bootRun'
-### Commuicates with Cassandra local instance:
+### Communicates with Cassandra local instance:
 - Keyspace: coin_mx  
 - Port: 9042
