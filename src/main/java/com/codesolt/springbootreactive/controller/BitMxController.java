@@ -24,20 +24,21 @@ public class BitMxController {
 	@Autowired
 	private BookRepository repository;
 
+
+
 	@GetMapping("/book")
 	public Flux<Book> getBooks() {
 		return repository.findAll();
 	}
-	
 
 	@GetMapping("/book/{id}")
 	public Mono<SingleTicker> getBook(@PathVariable String id) {
-		return service.getTicker(id.toString());
+		return service.getTicker(id);
 	}
 	
 	@GetMapping("/book/{id}/status")
 	public Mono<String> getBookStatus(@PathVariable String id) {
-		return service.getTicker(id.toString())
+		return service.getTicker(id)
 			.map(
 					ticker -> {
 						if(ticker.getPayload().getAsk() > ticker.getPayload().getLast())
