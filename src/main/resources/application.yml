@@ -1,3 +1,7 @@
 spring:
     main:
          banner-mode: "off"
+    data:
+        cassandra:
+          keyspace-name: coin_mx
+          port: 9042
