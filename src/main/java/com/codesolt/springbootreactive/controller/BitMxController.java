@@ -24,8 +24,6 @@ public class BitMxController {
 	@Autowired
 	private BookRepository repository;
 
-
-
 	@GetMapping("/book")
 	public Flux<Book> getBooks() {
 		return repository.findAll();
