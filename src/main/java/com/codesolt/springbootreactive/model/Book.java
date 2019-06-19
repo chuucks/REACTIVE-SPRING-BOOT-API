@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.util.UUID;
 
-@Data
+@Data @Builder
 @Table("books_available")
 public class Book {
 
