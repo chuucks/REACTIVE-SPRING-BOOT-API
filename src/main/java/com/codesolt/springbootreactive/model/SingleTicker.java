@@ -2,14 +2,20 @@ package com.codesolt.springbootreactive.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class SingleTicker {
+@NoArgsConstructor
+public class SingleTicker extends CommonModel {
 
-	@JsonProperty("success")
-	private String success;
-	
+	@Builder
+	public SingleTicker(String success, Ticker payload) {
+		super(success);
+		this.payload = payload;
+	}
+
 	@JsonProperty("payload")
 	private Ticker payload;		
 	
