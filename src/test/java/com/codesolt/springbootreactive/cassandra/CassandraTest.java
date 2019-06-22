@@ -19,7 +19,6 @@ import reactor.core.publisher.Flux;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@ActiveProfiles("cassandraTest")
 @RunWith(SpringRunner.class)
 @SpringBootTest({ "spring.data.cassandra.port=9142"})
 @TestExecutionListeners({ CassandraUnitDependencyInjectionTestExecutionListener.class,

@@ -42,5 +42,4 @@ dependencies {
 
 	testCompile 'org.cassandraunit:cassandra-unit:3.11.2.0'
 	testCompile 'org.cassandraunit:cassandra-unit-spring:3.11.2.0'
-	testCompile 'com.github.tomakehurst:wiremock-jre8:2.23.2'
 }
