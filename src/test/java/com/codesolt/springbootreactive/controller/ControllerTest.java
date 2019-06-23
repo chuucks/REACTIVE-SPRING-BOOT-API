@@ -1,10 +1,11 @@
 package com.codesolt.springbootreactive.controller;
 
-import com.codesolt.springbootreactive.model.SingleTicker;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
@@ -12,8 +13,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static junit.framework.TestCase.assertNotNull;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@EnableAutoConfiguration(exclude={
+		CassandraDataAutoConfiguration.class})
 public class ControllerTest {
 
 	@Autowired
@@ -41,7 +46,10 @@ public class ControllerTest {
 				.exchange()
 				.expectStatus().isOk()
 				.expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
-				.expectBody(String.class);
+				.expectBody(String.class)
+				.consumeWith(response -> {
+					assertNotNull(response.getResponseBody());
+				});
 	}
 
 	@Test
@@ -54,7 +62,10 @@ public class ControllerTest {
 				.exchange()
 				.expectStatus().isOk()
 				.expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
-				.expectBody(SingleTicker.class);
+				.expectBody()
+				.consumeWith(response -> {
+					assertNotNull(response.getResponseBody());
+				});
 	}
 
 	@Test
@@ -67,8 +78,10 @@ public class ControllerTest {
 				.exchange()
 				.expectStatus().isOk()
 				.expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
-				.expectBody(String.class);
+				.expectBody()
+				.consumeWith(response -> {
+					assertNotNull(response.getResponseBody());
+				});
 	}
-
 }
 
