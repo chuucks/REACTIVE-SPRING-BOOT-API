@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,11 +20,12 @@ import reactor.core.publisher.Flux;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@ActiveProfiles("cassandraTest")
 @RunWith(SpringRunner.class)
 @SpringBootTest({ "spring.data.cassandra.port=9142"})
 @TestExecutionListeners({ CassandraUnitDependencyInjectionTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class })
-@CassandraDataSet(value = { "data_schema.cql" })
+@CassandraDataSet(value = { "data_schema.cql" }, keyspace = "coin_mx")
 @CassandraUnit
 public class CassandraTest {
 

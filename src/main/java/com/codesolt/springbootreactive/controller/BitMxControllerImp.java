@@ -1,5 +1,7 @@
 package com.codesolt.springbootreactive.controller;
 
+import com.codesolt.springbootreactive.exception.BookNotFoundException;
+import com.codesolt.springbootreactive.model.CommonResponse;
 import com.codesolt.springbootreactive.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -29,28 +31,44 @@ public class BitMxControllerImp implements BitMxController {
 	@Override
 	@GetMapping("/book")
 	public Flux<Book> getBooks() {
-		return repository.findAll();
+		return repository.findAll()
+				.onErrorMap(error -> {
+						throw new BookNotFoundException("Books not found", error);
+				}).log();
 	}
 
 	@Override
 	@GetMapping("/book/{id}")
 	public Mono<SingleTicker> getBook(@PathVariable String id) {
-		return service.getTicker(id);
+		return service.getTicker(id)
+				.onErrorMap(error -> {
+					throw new BookNotFoundException("Book with ID: " + id + ", not found", error);
+				}).log();
 	}
 
 	@Override
 	@GetMapping("/book/{id}/status")
-	public Mono<String> getBookStatus(@PathVariable String id) {
+	public Mono<CommonResponse> getBookStatus(@PathVariable String id) {
+
 		return service.getTicker(id)
-			.map(
-					ticker -> {
-						if(ticker.getPayload().getAsk() > ticker.getPayload().getLast())
-							return "Recommend to sell";
-						else if(ticker.getPayload().getLast() > ticker.getPayload().getBid())
-							return "Recommend to buy";
-						else
-							return "Recommend to hold";
-					});
+			.flatMap(ticker -> {
+
+				CommonResponse commonResponse = CommonResponse
+						.builder()
+						.build();
+
+				commonResponse.setSuccess(true);
+				if(ticker.getPayload().getAsk() > ticker.getPayload().getLast()) {
+					commonResponse.setMessage("Recommend to sell");
+				} else if(ticker.getPayload().getLast() > ticker.getPayload().getBid()) {
+					commonResponse.setMessage("Recommend to buy");
+				} else {
+					commonResponse.setMessage("Recommend to hold");
+				}
+
+				return Mono.just(commonResponse);
+			}).onErrorMap(error -> {
+				throw new BookNotFoundException("Book with ID: " + id + ", not found", error);
+			}).log();
 	}
-	
 }

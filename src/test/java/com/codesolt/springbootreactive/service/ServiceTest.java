@@ -51,10 +51,10 @@ public class ServiceTest {
 
     @Test
     public void testGetTickers() {
-        Mono<Tickers> tickesrMono = coinService.getTickers();
-        assertNotNull(tickesrMono);
+        Mono<Tickers> tickersMono = coinService.getTickers();
+        assertNotNull(tickersMono);
 
-        Tickers tickers = tickesrMono.block();
+        Tickers tickers = tickersMono.block();
         assertNotNull(tickers);
         assertEquals(tickers.getSuccess(), "true");
     }

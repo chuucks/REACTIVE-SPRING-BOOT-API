@@ -5,7 +5,6 @@ spring:
         cassandra:
           keyspace-name: coin_mx
           port: 9042
-
 app:
     api:
       client:

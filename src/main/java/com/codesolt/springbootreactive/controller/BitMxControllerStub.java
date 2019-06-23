@@ -1,6 +1,7 @@
 package com.codesolt.springbootreactive.controller;
 
 import com.codesolt.springbootreactive.model.Book;
+import com.codesolt.springbootreactive.model.CommonResponse;
 import com.codesolt.springbootreactive.model.SingleTicker;
 import com.codesolt.springbootreactive.service.CoinService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,12 @@ public class BitMxControllerStub implements BitMxController {
 
 	@Override
 	@GetMapping("/book/{id}/status")
-	public Mono<String> getBookStatus(@PathVariable String id) {
-        String response = new StringBuilder("Recommend to hold").toString();
-		return Mono.just(response);
+	public Mono<CommonResponse> getBookStatus(@PathVariable String id) {
+		CommonResponse commonResponse = CommonResponse
+				.builder()
+				.success(true)
+				.message("Recommend to X")
+				.build();
+		return Mono.just(commonResponse);
 	}
-
 }
