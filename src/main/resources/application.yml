@@ -5,7 +5,8 @@ spring:
         cassandra:
           keyspace-name: coin_mx
           port: 9042
+          contact-points: cassandra
 app:
     api:
       client:
-        uri: https://api.bitso.com/v3/
+        uri: https://api.bitspwdo.com/v3/
