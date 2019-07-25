@@ -6,7 +6,7 @@ version: '3'
 
 services:
   cassandra:
-    container_name: webflux-cassandra
+    container_name: cassandra
     image: cassandra:latest
     ports:
       - 9042:9042
@@ -23,4 +23,19 @@ services:
       - cassandra
     volumes:
       - ./data_schema.cql:/schema.cql
-    command: /bin/bash -c "sleep 60 && echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"
+    command: /bin/bash -c "sleep 30 && echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+  spring-webflux:
+    container_name: spring-webflux
+    image: codesolt/spring-webflux:0.0.1
+    depends_on:
+      - cassandra
+      - cassandra-load-keyspace
+    ports:
+      - 8080:8080
+    restart: on-failure
