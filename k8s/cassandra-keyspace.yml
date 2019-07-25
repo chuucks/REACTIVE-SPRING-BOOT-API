@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cassandra-load-keyspace
+spec:
+  containers:
+    - name: cassandra-load-keyspace
+      image: codesolt/cassandra-load-keyspace:latest
+      imagePullPolicy: IfNotPresent
+      command: ["cqlsh", "cassandra", "-f", "schema.cql"]
+  restartPolicy: Never
