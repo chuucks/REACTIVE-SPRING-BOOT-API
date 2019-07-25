@@ -1,0 +1,76 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: cassandra
+  name: cassandra
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: cassandra
+    spec:
+      containers:
+        - env:
+            - name: HEAP_NEWSIZE
+              value: 128M
+            - name: MAX_HEAP_SIZE
+              value: 256M
+          image: cassandra:latest
+          name: cassandra
+          ports:
+            - containerPort: 9042
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/cassandra
+              name: cassandra-claim0
+      restartPolicy: Always
+      volumes:
+        - name: cassandra-claim0
+          persistentVolumeClaim:
+            claimName: cassandra-claim0
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: cassandra
+  name: cassandra
+spec:
+  ports:
+    - name: "9042"
+      port: 9042
+      targetPort: 9042
+  selector:
+    io.kompose.service: cassandra
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: cassandra-claim0
+  name: cassandra-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+
